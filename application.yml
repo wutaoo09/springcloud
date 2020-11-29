@@ -1,0 +1,45 @@
+server:
+  port: 8001
+  
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml        # mybatis配置文件所在路径
+  type-aliases-package: com.atguigu.springcloud.entities    # 所有Entity别名类所在包
+  mapper-locations:
+  - classpath:mybatis/mapper/**/*.xml                       # mapper映射文件
+    
+spring:
+   application:
+     #该服务在eureka中的名称，即application列的值
+    name: serviceProvider8001
+   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: org.gjt.mm.mysql.Driver              # mysql驱动包
+    url: jdbc:mysql://62.234.71.198:3306/xadmin              # 数据库名称
+    username: root
+    password: wutaoo09
+    dbcp2:
+      min-idle: 5                                           # 数据库连接池的最小维持连接数
+      initial-size: 5                                       # 初始化连接数
+      max-total: 5                                          # 最大连接数
+      max-wait-millis: 200                                  # 等待连接获取的最大超时时间
+      
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+      #下面的是eureka的服务端地址，单个eureka服务端时使用
+      defaultZone: http://localhost:7001/eureka
+#      #eureka服务端集群时使用，自身要同时注册到eureka集群中的每个节点中
+#      defaultZone: http://eureka7001.com:7001/
+  instance:
+    #eureka中的status名称
+    instance-id: service8001
+    prefer-ip-address: true     #当鼠标移动到eureka中的status名称时，就会显示该服务的IP地址
+
+#该服务的基本信息，如开发的公司，版本号等，当点击eureka服务端中的status时，就会显示下面配置的信息
+#http://localhost:8001/info，就会显示下面的内容
+info:
+  app.name: atguigu-microservicecloud
+  company.name: www.atguigu.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.modelVersion$
+
